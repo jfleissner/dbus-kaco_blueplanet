@@ -35,7 +35,8 @@ from vedbus import VeDbusService
 VERSION     = "0.1"
 SERVER_HOST = "192.168.2.190"
 SERVER_PORT = 502
-UNIT = 1
+UNIT = 3
+#was 1, unit=3 is default for espressif based logger found on newer inverters "Kaco blueplanet XX.xx nx3 m2"
 # ----------------------------------------------------------------
 CONNECTION  = "ModbusTCP " + SERVER_HOST + ":" + str(SERVER_PORT) + ", UNIT " + str(UNIT)
 
