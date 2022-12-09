@@ -1,5 +1,6 @@
 # dbus-kaco_blueplanet Service
 Victron Venus integration for Kaco blueplanet 3.0 TL3 - 10 TL3 Inverters
+Also works for newer versions Kaco blueplanet nx3 m2
 
 ### Purpose
 
@@ -26,7 +27,7 @@ You need to modify the settings in the dbus-kaco_blueplanet.py as needed:
 
 2. Copy the files to the /data folder on your venus:
 
-   - /data/dbus-kaco blueplanet/dbus-kaco_blueplanet.py
+   - /data/dbus-kaco_blueplanet/dbus-kaco_blueplanet.py
    - /data/dbus-kaco_blueplanet/kill_me.sh
    - /data/dbus-kaco_blueplanet/service/run
    - /data/dbus-kaco_blueplanet/service/log/run
@@ -90,6 +91,8 @@ If you see something like:
 Then you are not able to connect to your Inverter via Modbus. This can be a misconfiguration or another client is already connected. 
 The inverter will accept only one concurrent client connected, if you need more than one client connection you may use a modbus proxy like
 https://pypi.org/project/modbus-proxy/
+
+Espressif based loggers used on newer Kaco inverters need to be set to "Modbus TCP - Mode". This can be done using the Kaco installation tool on your mobile.
 
 
 #### Restart the script
