@@ -7,7 +7,7 @@ Also works for newer versions Kaco blueplanet nx3 m2
 
 This service is meant to be run on a raspberry Pi with Venus OS from Victron or a for example a Cerbo GX device.
 
-The Python script cyclically reads data from the Kaco blueplanet Inverter via Sunspec Modbus and publishes information on the dbus, using the services com.victronenergy.grid, com.victronenergy.pvinverter.pv0, com.victronenergy.temperature, com.victronenergy.digitalinput. This makes the Venus OS work as if you had a physical Victron Grid Meter installed and gives all information about PV Intervter load, temperature and if the inverter is in limit mode.
+The Python script cyclically reads data from the Kaco blueplanet Inverter via Sunspec Modbus and publishes information on the dbus, using the services com.victronenergy.grid, com.victronenergy.pvinverter.pv0, com.victronenergy.temperature, com.victronenergy.digitalinput. This makes the Venus OS work as if you had a physical Victron Grid Meter installed and gives all information about PV inverter load, temperature and if the inverter is in limit mode.
 
 ![Dashboard shows Energy flow](images/dashboard.png?raw=true "Dashboard")
 ![Menu shows Entries of the Inverter](images/menu.png?raw=true "Menu")
@@ -93,7 +93,7 @@ Then you are not able to connect to your Inverter via Modbus. This can be a misc
 The inverter will accept only one concurrent client connected, if you need more than one client connection you may use a modbus proxy like
 https://pypi.org/project/modbus-proxy/
 
-Espressif based loggers used on newer Kaco inverters need to be set to "Modbus TCP - Mode". This can be done using the Kaco installation tool on your mobile.
+Espressif based loggers used on newer Kaco inverters (USB-Dongle) need to be set to "Modbus TCP - Mode". This can be done using the Kaco installation tool on your mobile.
 
 
 #### Restart the script
