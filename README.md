@@ -50,6 +50,10 @@ You need to modify the settings in the dbus-kaco_blueplanet.py as needed:
 ### Upgrading Venus OS
 
 If you are upgrading your Venus OS you will have to re-add the symlink for autostarting the python script (Repeat step 4 from the above installation instructions).
+To avoid having to manually do this, add
+   `ln -s /data/dbus-kaco_blueplanet/service/ /opt/victronenergy/service/dbus-kaco_blueplanet`
+   to /data/rc.local
+   This will execute adding the link late at every startup.
 
 ### Debugging
 
