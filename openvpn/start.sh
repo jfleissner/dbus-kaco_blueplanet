@@ -1,7 +1,7 @@
 #!/bin/bash
 OPENVPN=/data/openvpn
 INSTALLED=$(opkg list_installed | grep openvpn | wc -l)
-CONFIG=[your OpenVPN client configuration file here]
+CONFIG=client.conf
 PACKAGE=openvpn_2.4.7-r0_cortexa7hf-neon-vfpv4.ipk
 	if [ $INSTALLED -eq 0 ]
 then
