@@ -1,0 +1,3 @@
+!#/bin/bash
+# Start OpenVPN tunnel
+/data/openvpn/start.sh
