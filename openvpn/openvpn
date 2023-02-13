@@ -1,4 +1,4 @@
-AUTOSTART="clientXXX.conf" 				# Start a VPN tunnel using this config file
+AUTOSTART="client.conf" 				        # Start a VPN tunnel using this config file
 STATUSREFRESH=60                        # Refresh VPN status in /var/run/openvpn.$NAME.status
 OPTARGS=""                              # No additional arguments required
 OMIT_SENDSIGS=0                         # Set this to 1 if you need OpenVPN running after sendsigs
