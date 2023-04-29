@@ -331,7 +331,7 @@ base = 'com.victronenergy'
 # Create all the dbus-services we want
 #dbusservice['grid']           = new_service(base, 'grid',           'grid',              0, 0)
 dbusservice['pvinverter.pv0'] = new_service(base, 'pvinverter.pv0', 'pvinverter',        0, 20)
-dbusservice['adc-temp0']      = new_service(base, 'temperature',    'temp_pvinverter',   0, 26)
+dbusservice['adc-temp0']      = new_service(base, 'temperature',    'temp_pvinverter',   0, 28)
 #dbusservice['digitalinput0']  = new_service(base, 'digitalinput',    'limit_pvinverter', 0, 10)
 
 # Everything done so just set a time to run an update function to update the data values every second.
