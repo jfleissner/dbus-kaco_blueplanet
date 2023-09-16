@@ -202,7 +202,7 @@ def _update():
 
     return True
  
-# Here is the bit you need to create multiple new services - try as much as possible timplement the Victron Dbus API requirements.
+# Here is the bit you need to create multiple new services - try as much as possible to implement the Victron Dbus API requirements.
 def new_service(base, type, physical, id, instance):
     self =  VeDbusService("{}.{}.{}_id{:02d}".format(base, type, physical,  id), dbusconnection())
 
