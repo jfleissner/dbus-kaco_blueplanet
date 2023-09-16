@@ -33,10 +33,9 @@ from vedbus import VeDbusService
 
 # ----------------------------------------------------------------
 VERSION     = "0.1"
-SERVER_HOST = "172.24.24.163"
+SERVER_HOST = "192.168.178.123"
 SERVER_PORT = 502
 UNIT = 3
-#was 1, unit=3 is default for espressif based logger found on newer inverters "Kaco blueplanet XX.xx nx3 m2"
 # ----------------------------------------------------------------
 CONNECTION  = "ModbusTCP " + SERVER_HOST + ":" + str(SERVER_PORT) + ", UNIT " + str(UNIT)
 
@@ -65,6 +64,10 @@ if not modbusClient.is_socket_open():
 
 log.info('Connected to Modbus Server.')
 
+def _get_sunspec_modules():
+    header = modbusClient.read_holding_registers(40000, 2, unit=UNIT)
+
+
 def _get_string(regs):
     numbers = []
     for x in regs:
@@ -81,6 +84,7 @@ def _get_scale_factor(regs):
     return 10**_get_signed_short(regs)
 
 def _get_victron_pv_state(state):
+    log.info('get_victron_pv_state: ' + str(state))
     if (state == 1):        # Device is not operating
         return 0 
     elif (state == 3):      # Device is staring up
@@ -109,8 +113,17 @@ class SessionBus(dbus.bus.BusConnection):
 def dbusconnection():
     return SessionBus() if 'DBUS_SESSION_BUS_ADDRESS' in os.environ else SystemBus()
  
+def _maxpower_change(path, newvlaue):
+    log.info('_maxpower_change ' + path)
+    return True
+
+def _powerlimit_change(path, newvalue):
+    log.info('_powerlimit_change ' + path + ' val: ' + newvalue)
+    # sunspec_updater.cpp 73ff
+    return True
 
 def _update():
+    log.info('update()')
     try:
         # regs = modbusClient.read_holding_registers(40190, 70, unit=UNIT)
 
@@ -147,6 +160,7 @@ def _update():
             log.error('regs.isError: {regs}')
             sys.exit()                                                                             
         else:
+           log.info('read registers 40072 ok')
            sf = _get_scale_factor(regs.registers[4])
            dbusservice['pvinverter.pv0']['/Ac/L1/Current'] = round(regs.registers[1] * sf, 2)
            dbusservice['pvinverter.pv0']['/Ac/L2/Current'] = round(regs.registers[2] * sf, 2)
@@ -157,11 +171,12 @@ def _update():
            dbusservice['pvinverter.pv0']['/Ac/L2/Voltage'] = round(regs.registers[9] * sf, 2)
            dbusservice['pvinverter.pv0']['/Ac/L3/Voltage'] = round(regs.registers[10] * sf, 2)
            sf = _get_scale_factor(regs.registers[13])
-           acpower = _get_signed_short(regs.registers[12]) * sf
-           dbusservice['pvinverter.pv0']['/Ac/Power'] = acpower
-           dbusservice['pvinverter.pv0']['/Ac/L1/Power'] = round(_get_signed_short(regs.registers[12]) * sf / 3, 2)
-           dbusservice['pvinverter.pv0']['/Ac/L2/Power'] = round(_get_signed_short(regs.registers[12]) * sf / 3, 2)
-           dbusservice['pvinverter.pv0']['/Ac/L3/Power'] = round(_get_signed_short(regs.registers[12]) * sf / 3, 2)
+           #acpower = _get_signed_short(regs.registers[12]) * sf
+           dbusservice['pvinverter.pv0']['/Ac/Power'] = _get_signed_short(regs.registers[12]) * sf
+
+           dbusservice['pvinverter.pv0']['/Ac/L1/Power'] = round(_get_signed_short(regs.registers[1]) * _get_signed_short(regs.registers[8]) * _get_scale_factor(regs.registers[11]) * _get_scale_factor(regs.registers[4])  , 2)
+           dbusservice['pvinverter.pv0']['/Ac/L2/Power'] = round(_get_signed_short(regs.registers[2]) * _get_signed_short(regs.registers[9]) * _get_scale_factor(regs.registers[11]) * _get_scale_factor(regs.registers[4])  , 2)
+           dbusservice['pvinverter.pv0']['/Ac/L3/Power'] = round(_get_signed_short(regs.registers[3]) * _get_signed_short(regs.registers[10]) * _get_scale_factor(regs.registers[11]) * _get_scale_factor(regs.registers[4])   , 2)
            sf = _get_scale_factor(regs.registers[24])
            dbusservice['pvinverter.pv0']['/Ac/Energy/Forward'] = round(float((regs.registers[22] << 16) + regs.registers[23]) * sf / 1000,3)
            dbusservice['pvinverter.pv0']['/Ac/L1/Energy/Forward'] = round(float((regs.registers[22] << 16) + regs.registers[23]) * sf / 3 / 1000,3)
@@ -271,7 +286,8 @@ def new_service(base, type, physical, id, instance):
                 self.add_path('/Ac/L1/Voltage', None, gettextcallback=_v)
                 self.add_path('/Ac/L2/Voltage', None, gettextcallback=_v)
                 self.add_path('/Ac/L3/Voltage', None, gettextcallback=_v)
-                self.add_path('/Ac/MaxPower', None, gettextcallback=_w)
+                self.add_path('/Ac/MaxPower', None, gettextcallback=_w, onchangecallback=_maxpower_change, writeable=True)
+                self.add_path('/Ac/PowerLimit', None, gettextcallback=_v, onchangecallback=_powerlimit_change, writeable=True)
                 self.add_path('/ErrorCode', None)
                 self.add_path('/Position', 0)
                 self.add_path('/StatusCode', None)
@@ -331,7 +347,7 @@ base = 'com.victronenergy'
 # Create all the dbus-services we want
 #dbusservice['grid']           = new_service(base, 'grid',           'grid',              0, 0)
 dbusservice['pvinverter.pv0'] = new_service(base, 'pvinverter.pv0', 'pvinverter',        0, 20)
-dbusservice['adc-temp0']      = new_service(base, 'temperature',    'temp_pvinverter',   0, 28)
+dbusservice['adc-temp0']      = new_service(base, 'temperature',    'temp_pvinverter',   0, 26)
 #dbusservice['digitalinput0']  = new_service(base, 'digitalinput',    'limit_pvinverter', 0, 10)
 
 # Everything done so just set a time to run an update function to update the data values every second.
