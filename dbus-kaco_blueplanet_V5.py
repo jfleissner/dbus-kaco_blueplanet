@@ -532,7 +532,7 @@ dbusservice['adc-temp0']      = new_service(base, 'temperature',    'temp_pvinve
 
 # Everything done so just set a time to run an update function to update the data values every second.
 log.info('Start update timer')
-gobject.timeout_add(1000, _update)
+gobject.timeout_add(3000, _update)
 
 
 log.info("Initial maxPowerData per Modbus auf 100% setzen")
