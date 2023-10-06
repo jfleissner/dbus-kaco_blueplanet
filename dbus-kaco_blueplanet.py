@@ -336,7 +336,7 @@ dbusservice['pvinverter.pv0'] = new_service(base, 'pvinverter.pv0', 'pvinverter'
 dbusservice['adc-temp0']      = new_service(base, 'temperature',    'temp_pvinverter',   0, 26)
 #dbusservice['digitalinput0']  = new_service(base, 'digitalinput',    'limit_pvinverter', 0, 10)
 
-# Everything done so just set a time to run an update function to update the data values every three seconds.
+# Everything done so just set a time to run an update function to update the data values every second.
 gobject.timeout_add(3000, _update)
 
 log.info('Connected to dbus, and switching over to GLib.MainLoop() (= event based)')
