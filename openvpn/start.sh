@@ -2,7 +2,7 @@
 OPENVPN=/data/openvpn
 INSTALLED=$(opkg list_installed | grep openvpn | wc -l)
 CONFIG=client.conf
-PACKAGE=openvpn_2.4.7-r0_cortexa7hf-neon-vfpv4.ipk
+PACKAGE=openvpn_2.4.12-r0_cortexa7hf-neon-vfpv4.ipk
 	if [ $INSTALLED -eq 0 ]
 then
 	opkg update
