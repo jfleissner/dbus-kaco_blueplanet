@@ -32,7 +32,7 @@ sys.path.insert(1, os.path.join(os.path.dirname(__file__), '/opt/victronenergy/d
 from vedbus import VeDbusService
 
 # ----------------------------------------------------------------
-VERSION     = "0.1"
+VERSION     = "1.0"
 SERVER_HOST = "172.24.24.82"
 SERVER_PORT = 502
 UNIT = 3
