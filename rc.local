@@ -1,2 +1,9 @@
 !#/bin/bash
-/data/openvpn/check_ovpn.sh
+
+#Pruefen ob checkvpn in crontab ist. Wenn nein dann einfuegen.
+openvpn=$( cat /etc/crontab | grep /data/openvpn/check_ovpn.sh | wc -l )
+echo $openvpn
+if [ $openvpn -eq 0 ]
+        then
+                echo "*/5  *  *  *  *  root  /data/openvpn/check_ovpn.sh" >> /etc/crontab
+fi
