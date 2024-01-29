@@ -1,4 +1,4 @@
-Ich habe mal die komplette Sunspec Model Reference hier abgelegt.
+Ich habe mal die komplette Sunspec Model Reference hier im Ordner abgelegt.
 
 Was ich gerne hätte:
 Model 160
@@ -6,6 +6,7 @@ Model ID: 40208 (160)
 Model Length: 40209 (48)
 
 In Abhängigkeit der Anzahl der Strings (steht in 40216) pro String. Ob es 1 oder mehr als zwei gibt muss ich noch checken.
+Register noch alle "hartcoded"
 
 Für den ersten String:
 40227 DC Current DCA
