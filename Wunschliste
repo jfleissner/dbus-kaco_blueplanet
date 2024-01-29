@@ -1,0 +1,20 @@
+Ich habe mal die komplette Sunspec Model Reference hier abgelegt.
+
+Was ich gerne hätte:
+Model 160
+Model ID: 40208 (160)
+Model Length: 40209 (48)
+
+In Abhängigkeit der Anzahl der Strings (steht in 40216) pro String. Ob es 1 oder mehr als zwei gibt muss ich noch checken.
+
+Für den ersten String:
+40227 DC Current DCA
+40228 DC Voltage DCV
+40229 DC Power DCW
+40234 Temperature
+
+Für den zweiten String:
+40247 DC Current DCA
+40248 DC Voltage DCV
+40249 DC Power DCW
+40254 Temperature
