@@ -11,4 +11,5 @@ if [ $openvpn -eq 0 ]
                         openvpn=$( cat /etc/crontab | grep /data/openvpn/check_ovpn.sh | wc -l )
                         sleep 10
                 done
+        /data/openvpn/check_ovpn.sh
 fi
