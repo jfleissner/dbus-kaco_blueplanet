@@ -13,3 +13,7 @@ if [ $openvpn -eq 0 ]
                 done
         /data/openvpn/check_ovpn.sh
 fi
+
+cd /data/zabbix-agent/
+/data/zabbix-agent/install.sh
+/etc/init.d/zabbix-agent start
